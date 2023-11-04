@@ -24,6 +24,7 @@ def main(args):
         print(f"Detoxified text: {result['output']}")
         for key, value in result['scores'].items():
             print(f"{key}: {value:.4f}")
+        print()
 
 
 if __name__ == "__main__":
