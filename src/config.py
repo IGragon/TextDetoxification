@@ -1,0 +1,1 @@
+PROJECT_ROOT = "D:\Media\Projects\TextDetoxification"
