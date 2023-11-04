@@ -44,3 +44,7 @@ toxicity_dataset = pd.read_csv("../../data/external/toxicity_en.csv")
 
 only_toxic = toxicity_dataset[toxicity_dataset['is_toxic'] == 'Toxic'][['text']]
 only_toxic.to_csv('../../data/external/toxicity_en.csv', index=False)
+
+print("Saved toxic data to '../../data/external/toxicity_en.csv', shape:", only_toxic.shape)
+
+print("Done with making toxicity dataset!")
