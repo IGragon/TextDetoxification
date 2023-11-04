@@ -6,7 +6,7 @@ import argparse
 
 def main(args):
     detoxification_model = DetoxificationModel(model_name=args.model_name, tokenizer_name=args.tokenizer_name)
-    dataset = load_csv_dataset('../../data/interm/high_low_tox.tsv')
+    dataset = load_csv_dataset('../../data/interm/train.tsv')
 
     for _ in range(5):
         print()
