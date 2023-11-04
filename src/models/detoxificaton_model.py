@@ -121,7 +121,6 @@ class DetoxificationModel:
         )
 
         print(trainer.train())
-        print(trainer.evaluate())
 
         if args.store_locally:
             self.model.save_pretrained(args.save_name)
