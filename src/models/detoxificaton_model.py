@@ -106,7 +106,8 @@ class DetoxificationModel:
             save_total_limit=args.save_total_limit,
             num_train_epochs=args.num_train_epochs,
             fp16=True,
-            predict_with_generate=True
+            predict_with_generate=True,
+            report_to="none"
         )
 
         trainer = Seq2SeqTrainer(
