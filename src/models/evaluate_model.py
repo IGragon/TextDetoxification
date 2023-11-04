@@ -10,7 +10,7 @@ import pandas as pd
 def main(args):
     detoxification_model = DetoxificationModel(model_name=args.model_name, tokenizer_name=args.tokenizer_name)
     df = pd.read_csv('../../data/interm/eval.tsv', sep='\t')
-    samples = df.sample(50)['tox_high'].values
+    samples = df.sample(10)['tox_high'].values
     results = detoxification_model.predict(samples)
 
     scores = defaultdict(int)
@@ -21,7 +21,14 @@ def main(args):
     for key, value in scores.items():
         scores[key] /= N
 
-    print(scores)
+    for _ in range(5):
+        print()
+
+    print('-' * 50)
+    print("Evaluation results!")
+    print("Mean metrics:")
+    for key, value in scores.items():
+        print(f"{key}: {value:.4f}")
 
 
 if __name__ == "__main__":

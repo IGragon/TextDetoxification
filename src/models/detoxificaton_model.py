@@ -50,10 +50,10 @@ class DetoxificationModel:
                 input_ids=input_ids, attention_mask=attention_masks,
                 max_length=256,
                 do_sample=True,
-                top_k=120,
+                top_k=50,
                 top_p=0.95,
                 early_stopping=True,
-                num_return_sequences=10
+                num_return_sequences=7
             )
 
             outputs = [self.tokenizer.decode(output,
