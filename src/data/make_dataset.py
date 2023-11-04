@@ -37,3 +37,10 @@ eval_part.to_csv('../../data/interm/eval.tsv', sep='\t', index=False)
 
 print("Saved intermediate data to '../../data/interm/train.tsv', shape:", train_part.shape)
 print("Saved intermediate data to '../../data/interm/eval.tsv', shape:", eval_part.shape)
+
+print("Done with making training datasets!")
+
+toxicity_dataset = pd.read_csv("../../data/external/toxicity_en.csv")
+
+only_toxic = toxicity_dataset[toxicity_dataset['is_toxic'] == 'Toxic'][['text']]
+only_toxic.to_csv('../../data/external/toxicity_en.csv', index=False)
