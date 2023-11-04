@@ -1,6 +1,5 @@
 from collections import defaultdict
 
-from utils import load_csv_dataset
 from detoxificaton_model import DetoxificationModel
 
 import argparse
@@ -11,7 +10,7 @@ def main(args):
     detoxification_model = DetoxificationModel(model_name=args.model_name, tokenizer_name=args.tokenizer_name)
 
     if args.use_toxicity_dataset:
-        df = load_csv_dataset('../../data/external/toxicity_en.csv')
+        df = pd.read_csv('../../data/external/toxicity_en.csv')
         samples = df['text'].values
     else:
         df = pd.read_csv('../../data/interm/eval.tsv', sep='\t')
