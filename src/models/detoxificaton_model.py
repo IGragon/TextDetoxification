@@ -12,6 +12,7 @@ from helper_models import ToxicityClassifier, SimilarityClassifier, FluencyClass
 
 class DetoxificationModel:
     """
+    Model for detoxifying text using a fine-tuned T5 model.
     Model to fine-tune: https://huggingface.co/Vamsi/T5_Paraphrase_Paws
     """
     def __init__(self, model_name: str = "Vamsi/T5_Paraphrase_Paws", tokenizer_name: str = "Vamsi/T5_Paraphrase_Paws"):
@@ -23,6 +24,17 @@ class DetoxificationModel:
         self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name).to("cuda")
 
     def choose_output(self, original_text, generated_texts):
+        """
+        Choose the best detoxified output from a list of generated texts.
+
+        Args:
+            original_text (str): The original input text.
+            generated_texts (list of str): List of generated texts.
+
+        Returns:
+            str: The best detoxified output text.
+            dict: Scores for non-toxicity, fluency, and similarity of the chosen text.
+        """
         toxicity_scores = self.toxicity_classifier.predict(generated_texts)
         toxicity_scores = [1 - score for score in toxicity_scores]
 
@@ -38,6 +50,15 @@ class DetoxificationModel:
                                              "similarity": similarity_scores[best_index]}
 
     def predict(self, texts_list: list[str]) -> (list[str], dict):
+        """
+        Predict detoxified text for a list of input texts.
+
+        Args:
+            texts_list (list of str): List of input texts.
+
+        Returns:
+            list of dict: List of predicted detoxified outputs and associated scores.
+        """
         results = []
         for text in tqdm(texts_list, desc="Detoxification model / predict"):
             original_text = text
@@ -64,6 +85,15 @@ class DetoxificationModel:
         return results
 
     def tokenize_dataset(self, dataset: Dataset) -> Dataset:
+        """
+        Tokenize a dataset for training.
+
+        Args:
+            dataset (Dataset): The input dataset.
+
+        Returns:
+            Dataset: Tokenized dataset for training.
+        """
         inputs = ["paraphrase: " + text for text in dataset["tox_high"]]
         model_inputs = self.tokenizer(inputs, max_length=256, truncation=True)
         labels = self.tokenizer(text_target=dataset["tox_low"], max_length=256, truncation=True)
@@ -71,6 +101,16 @@ class DetoxificationModel:
         return model_inputs
 
     def train(self, dataset: Dataset, args):
+        """
+        Train the detoxification model using a provided dataset and training arguments.
+
+        Args:
+            dataset (Dataset): The training dataset.
+            args: Training arguments.
+
+        Returns:
+            None
+        """
         nltk.download("punkt", quiet=True)
         metric = evaluate.load("rouge")
 
@@ -88,9 +128,6 @@ class DetoxificationModel:
 
             result = metric.compute(predictions=decoded_preds, references=decoded_labels, use_stemmer=True)
             return result
-
-        # if not args.store_locally:
-        #     interpreter_login()
 
         dataset = dataset.train_test_split(test_size=0.2, seed=42)
         tokenized_dataset = dataset.map(self.tokenize_dataset, batched=True)
@@ -126,4 +163,3 @@ class DetoxificationModel:
             self.model.save_pretrained(args.save_name)
         else:
             self.model.push_to_hub(args.save_name)
-

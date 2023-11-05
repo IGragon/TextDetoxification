@@ -1,6 +1,8 @@
 import pandas as pd
 from tqdm import tqdm
 
+# This code reads and processes data related to toxicity,
+# creates training and evaluation datasets, and saves the results to files.
 
 raw_data = pd.read_csv("../../data/raw/filtered.tsv", delimiter="\t")
 
