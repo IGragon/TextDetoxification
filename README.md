@@ -4,6 +4,10 @@
 
 **Group:** B21-DS-01
 
+# Solution report
+
+The final solution report can be found [here](reports/FinalSolutionReport.md) with more details on the model, training, evaluation, results, and e.t.c
+
 # How to use
 
 It is highly recommended running this repo in Colab or Kaggle notebooks. Therefore
