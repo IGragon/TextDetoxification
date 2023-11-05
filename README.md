@@ -4,6 +4,8 @@
 
 **Group:** B21-DS-01
 
+**Grade**: TBA
+
 # Solution report
 
 The final solution report can be found [here](reports/FinalSolutionReport.md) with more details on the model, training,
