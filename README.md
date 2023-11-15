@@ -4,7 +4,7 @@
 
 **Group:** B21-DS-01
 
-**Grade**: TBA
+**Grade**: 88% (lack of visualizations, should've added at least Loss plots, lack of comments in .ipynb notebooks, and no baseline to compare with)
 
 # Solution report
 
